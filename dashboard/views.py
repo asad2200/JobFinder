@@ -10,10 +10,13 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 def index(request):
     if request.session.get("role") is None:
         try:
-            Profile.objects.get(user_id=request.user.id)
+            profile = Profile.objects.get(user_id=request.user.id)
+            if profile.role == 0:
+                return HttpResponseRedirect("/employer/")
         except Profile.DoesNotExist:
             return HttpResponseRedirect("/complete-register/")
     elif int(request.session.get("role")) == 0:
+        print("outside")
         return HttpResponseRedirect("/employer/")
     return HttpResponse("Welcome To dashboard")
 
