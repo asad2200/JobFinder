@@ -8,16 +8,16 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 @login_required(login_url="/auth/login/")
 def index(request):
-    if request.session.get("role") is None:
-        try:
-            profile = Profile.objects.get(user_id=request.user.id)
-            if profile.role == 0:
-                return HttpResponseRedirect("/employer/")
-        except Profile.DoesNotExist:
-            return HttpResponseRedirect("/complete-register/")
-    elif int(request.session.get("role")) == 0:
-        print("outside")
-        return HttpResponseRedirect("/employer/")
+    # if request.session.get("role") is None:
+    try:
+        profile = Profile.objects.get(user_id=request.user.id)
+        if profile.role == 0:
+            return HttpResponseRedirect("/employer/")
+    except Profile.DoesNotExist:
+        return HttpResponseRedirect("/complete-register/")
+    # elif int(request.session.get("role")) == 0:
+    #     print("outside")
+    #     return HttpResponseRedirect("/employer/")
     return HttpResponse("Welcome To dashboard")
 
 
@@ -29,7 +29,7 @@ def complete_register(request):
 
         Profile(user_id=request.user.id, role=role, name=name).save()
 
-        request.session["role"] = role
+        # request.session["role"] = role
         return HttpResponseRedirect('/')
 
     return render(request, "dashboard/complete-register.html")
