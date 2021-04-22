@@ -1,0 +1,36 @@
+{% extends "dashboard/base.html" %} 
+
+{% block title %} 
+  complete register 
+{%endblock %} 
+
+{% block main %}
+  <div class="mt-5 alert alert-dark" role="alert">
+    <h2>Complete Register</h2>
+  </div>
+  <form method="POST">
+    {% csrf_token %}
+    <div>
+      <label class="form-label">Are you...</label>
+    </div>
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="role"
+        value="0"
+        checked
+      />
+      <label class="form-check-label"> Employer </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="role" value="1" />
+      <label class="form-check-label"> Job Seeker </label>
+    </div>
+    <div class="mb-2 mt-1">
+      <label for="name" class="form-label">Name/Company name</label>
+      <input type="text" class="form-control" id="name" name="name" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock %}
