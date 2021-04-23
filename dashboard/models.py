@@ -7,3 +7,6 @@ class Profile(models.Model):
     user_id = models.IntegerField()
     role = models.IntegerField()  # 0:Employer/HR, 1:Job Seeker
     name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name

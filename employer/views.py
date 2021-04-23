@@ -39,3 +39,6 @@ def post_job(request):
     return render(request, 'employer/new-job.html', {
         'name': profile.name,
     })
+
+# TODO: display all posted jobs
+# TODO: display all notification fro posted jobs

@@ -10,7 +10,7 @@ Job
 
 {% block main %}
 <div class="card m-5 text-white bg-dark">
-    <h5 class="card-header text-uppercase">Job From {{ name }}</h5>
+    <h5 class="card-header text-uppercase">Job From {{ company }}</h5>
     <div class="card-body">
         <h5 class="card-title">{{ job.title }}</h5>
         <p class="card-text text-capitalize">{{ job.description }}.</p>
@@ -21,7 +21,7 @@ Job
             <li class="card-text">{{ q }}</li>
             {% endfor %}
         </ul>
-        <a href="#" class="btn btn-primary">Apply</a>
+        <a href="/jobs/apply/{{job.code}}" class="btn btn-primary">Apply</a>
     </div>
 </div>
 {% endblock %}
