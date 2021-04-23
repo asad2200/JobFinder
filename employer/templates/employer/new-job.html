@@ -1,51 +1,55 @@
 {% extends "employer/base.html" %}
 
 {% block title %}
-    post-new-job
+post-new-job
+{% endblock %}
+
+{% block nav %}
+{% include "employer/nav.html" %}
 {% endblock %}
 
 {% block main %}
-    <div class="row">
-        <div class="col-4"></div>
-        <div class="mt-4 p-2 col-4 card">
-            <div class="alert alert-dark" role="alert">
-                <h5 class="text-center">Post Job</h5>
-            </div>
-            <form method="POST">
-                {% csrf_token %}
-                <div class="mb-2">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" name="title">
-                </div>
-                <div class="mb-2">
-                    <label for="decription" class="form-label">Decription</label>
-                    <textarea class="form-control" id="decription" rows="4" name="decription"></textarea>
-                </div>
-                <div class="mb-2">
-                    <label for="qualification" class="form-label">Qualification (seprated by comma)</label>
-                    <input type="text" class="form-control" id="qualification" name="qualification">
-                </div>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Min Salary" name="min salary">
-                    <span class="input-group-text">~</span>
-                    <input type="text" class="form-control" placeholder="Max Salary" name="max salary">
-                    <select class="form-select" name="rate">
-                        <option value="/hour">/hour</option>
-                        <option value="/day">/day</option>
-                        <option value="/week">/week</option>
-                        <option value="/month">/month</option>
-                        <option value="/year">/year</option>
-                    </select>                    
-                </div>
-                <div class="mb-2">
-                    <label for="location" class="form-label">Location</label>
-                    <input type="text" class="form-control" id="location" name="location">
-                </div>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">submit</button>
-                </div>
-            </form>
+<div class="row">
+    <div class="col-4"></div>
+    <div class="mt-4 p-2 col-4 card text-white bg-dark">
+        <div class="alert alert-dark" role="alert">
+            <h5 class="text-center">Post Job</h5>
         </div>
-        <div class="col-4"></div>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-2">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title">
+            </div>
+            <div class="mb-2">
+                <label for="decription" class="form-label">Decription</label>
+                <textarea class="form-control" id="decription" rows="4" name="decription"></textarea>
+            </div>
+            <div class="mb-2">
+                <label for="qualification" class="form-label">Qualification (seprated by comma)</label>
+                <input type="text" class="form-control" id="qualification" name="qualification">
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Min Salary" name="min salary">
+                <span class="input-group-text">~</span>
+                <input type="text" class="form-control" placeholder="Max Salary" name="max salary">
+                <select class="form-select" name="rate">
+                    <option value="/hour">/hour</option>
+                    <option value="/day">/day</option>
+                    <option value="/week">/week</option>
+                    <option value="/month">/month</option>
+                    <option value="/year">/year</option>
+                </select>
+            </div>
+            <div class="mb-2">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" id="location" name="location">
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">submit</button>
+            </div>
+        </form>
     </div>
+    <div class="col-4"></div>
+</div>
 {% endblock %}

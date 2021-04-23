@@ -1,0 +1,27 @@
+{% extends "employer/base.html" %}
+
+{% block title %}
+Job
+{% endblock %}
+
+{% block nav %}
+{% include "employer/nav.html" %}
+{% endblock %}
+
+{% block main %}
+<div class="card m-5 text-white bg-dark">
+    <h5 class="card-header text-uppercase">Job From {{ name }}</h5>
+    <div class="card-body">
+        <h5 class="card-title">{{ job.title }}</h5>
+        <p class="card-text text-capitalize">{{ job.description }}.</p>
+        <hr />
+        <h5 class="card-title">Qualification:</h5>
+        <ul ml-2>
+            {% for q in qualifications %}
+            <li class="card-text">{{ q }}</li>
+            {% endfor %}
+        </ul>
+        <a href="#" class="btn btn-primary">Apply</a>
+    </div>
+</div>
+{% endblock %}
