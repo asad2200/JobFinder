@@ -1,0 +1,35 @@
+{% extends "employer/base.html" %}
+
+{% block title %}
+chat with candidate
+{% endblock %}
+
+{% block nav %}
+{% include "employer/nav.html" %}
+{% endblock %}
+
+{% block main %}
+<div class="center card p-2 text-white bg-dark">
+    <div class="alert alert-secondary" role="alert">
+        <h5 class="text-center"><b>{{profile.name}}</b> Appllied to <b>{{job.title}}</b></h5>
+    </div>
+    <div class="overflow-auto">
+        {% for msg in messages%}
+
+        <p class="bg-white text-dark">{{msg.message}}</p>
+        {% endfor %}
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-2">
+            <label for="coverletter" class="form-label">Send message to the candidate</label>
+            <textarea class="form-control" id="coverletter" cols="100" rows="4" name="message"></textarea>
+        </div>
+        <div class="row">
+            <div class="col-sm d-grid">
+                <button type="submit" class="btn btn-primary m">send</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

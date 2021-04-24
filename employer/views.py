@@ -2,7 +2,7 @@ from jobs.models import Application
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
-from dashboard.models import Profile
+from dashboard.models import Profile, ChatMessage
 from .models import Job, Qualification
 
 # Create your views here.
@@ -81,3 +81,26 @@ def view_application(request, id):
         'job': job,
         'application': application,
     })
+
+
+def chat_with_candidate(request, application_id):
+    application = Application.objects.get(id=application_id)
+
+    if request.method == 'POST':
+        message = request.POST['message']
+        from_id = request.user.id
+        to_id = application.id
+        ChatMessage(from_id=from_id, to_id=to_id, message=message,
+                    application_id=application_id).save()
+
+        return HttpResponseRedirect(f"/employer/chat/{application_id}/")
+    else:
+        messages = ChatMessage.objects.filter(application_id=application_id)
+        job = Job.objects.get(id=application.job_id)
+        profile = Profile.objects.get(user_id=application.applicant_id)
+        return render(request, "employer/chat.html", {
+            'messages': messages,
+            'application': application,
+            'job': job,
+            'profile': profile,
+        })

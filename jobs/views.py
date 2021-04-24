@@ -46,7 +46,7 @@ def apply_job(request, code):
                     resume=file_code, cover_letter=cover_letter).save()
 
         return render(request, "employer/success.html", {
-            'message': "Applied succesfully!!"+file_code
+            'message': "Applied succesfully!!"
         })
     else:
         job = Job.objects.get(code=code)

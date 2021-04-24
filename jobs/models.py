@@ -11,5 +11,5 @@ class Application(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
     status = models.IntegerField(default=0)  # 0: waiting, 1: view, 2:rejected
 
-    def __str__(self):
-        return self.applicant_id + "" + self.job_id
+    # def __str__(self):
+    #     return self.applicant_id + "" + self.job_id

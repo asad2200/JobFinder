@@ -9,35 +9,31 @@ apply job
 {% endblock %}
 
 {% block main %}
-<div class="row">
-    <div class="col-4"></div>
-    <div class="mt-4 p-2 col-4 card text-white bg-dark">
-        <div class="alert alert-dark" role="alert">
-            <h5 class="text-center">Apply to <b>{{job.title}}</b> from <b>{{company}}</b></h5>
-        </div>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="mb-2">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" value={{profile.name}} disabled>
-            </div>
-            <div class="mb-2">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" value={{request.user.email}} disabled>
-            </div>
-            <div class="mb-2">
-                <label for="resume" class="form-label">Resume</label>
-                <input type="file" accept="application/pdf" class="form-control" id="resume" name="file" required>
-            </div>
-            <div class="mb-2">
-                <label for="coverletter" class="form-label">Cover letter(optional)</label>
-                <textarea class="form-control" id="coverletter" cols="100" rows="4" name="coverletter"></textarea>
-            </div>
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary">submit</button>
-            </div>
-        </form>
+<div class="center card p-2 text-white bg-dark">
+    <div class="alert alert-secondary" role="alert">
+        <h5 class="text-center">Apply to <b>{{job.title}}</b> from <b>{{company}}</b></h5>
     </div>
-    <div class="col-4"></div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-2">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" value={{profile.name}} disabled>
+        </div>
+        <div class="mb-2">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" value={{request.user.email}} disabled>
+        </div>
+        <div class="mb-2">
+            <label for="resume" class="form-label">Resume</label>
+            <input type="file" accept="application/pdf" class="form-control" id="resume" name="file" required>
+        </div>
+        <div class="mb-2">
+            <label for="coverletter" class="form-label">Cover letter(optional)</label>
+            <textarea class="form-control" id="coverletter" cols="100" rows="4" name="coverletter"></textarea>
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary">submit</button>
+        </div>
+    </form>
 </div>
 {% endblock %}
