@@ -8,7 +8,7 @@ class Application(models.Model):
     job_id = models.IntegerField()
     resume = models.CharField(max_length=30)
     cover_letter = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now=True)
     status = models.IntegerField(default=0)  # 0: waiting, 1: view, 2:rejected
 
     def __str__(self):

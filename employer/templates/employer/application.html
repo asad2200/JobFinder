@@ -1,0 +1,48 @@
+{% extends "employer/base.html" %}
+
+{% block title %}
+view application
+{% endblock %}
+
+{% block nav %}
+{% include "employer/nav.html" %}
+{% endblock %}
+
+{% block main %}
+<div class="row">
+    <div class="col-4"></div>
+    <div class="mt-4 p-2 col-4 card text-white bg-dark">
+        <div class="alert alert-dark" role="alert">
+            <h5 class="text-center"><b>{{profile.name}}</b> Appllied to <b>{{job.title}}</b></h5>
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-2">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" value={{profile.name}} disabled>
+            </div>
+            <div class="mb-2">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" value={{request.user.email}} disabled>
+            </div>
+            <div class="mb-2">
+                <label for="resume" class="form-label">Resume</label>
+                <a href="/jobs/resume/{{application.resume}}" target="_blank"
+                    class="form-control btn btn-sm btn-outline-primary">view
+                    resume</a>
+            </div>
+            <div class="mb-2">
+                <label for="coverletter" class="form-label">Cover letter</label>
+                <textarea class="form-control" id="coverletter" cols="100" rows="4" name="coverletter"
+                    disabled>{{application.cover_letter}}</textarea>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="mb-2 btn btn-danger">Reject this candidate</button>
+                <button type="submit" class="mb-2 btn btn-primary">Invite to this candidate interview</button>
+                <button type="submit" class="btn btn-success">Hire this candidate</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-4"></div>
+</div>
+{% endblock %}

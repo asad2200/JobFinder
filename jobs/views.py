@@ -25,11 +25,16 @@ def apply_job(request, code):
     try:
         application = Application.objects.get(
             applicant_id=request.user.id, job_id=Job.objects.get(code=code).id)
+        status = {
+            0: 'Your request is in waiting',
+            1: 'Your request is viewed',
+            2: 'Your request is rejected',
+        }
+
         return render(request, "employer/invalid.html", {
-            'message': f'You already applied for this job on {application.timestamp}'
+            'message': f'You already applied for this job on {application.timestamp}. {status[application.status]} '
         })
     except Application.DoesNotExist:
-        print("hello")
         pass
     if request.method == 'POST':
         applicant_id = request.user.id

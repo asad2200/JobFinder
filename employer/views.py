@@ -1,3 +1,4 @@
+from jobs.models import Application
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
@@ -40,5 +41,43 @@ def post_job(request):
         'name': profile.name,
     })
 
-# TODO: display all posted jobs
-# TODO: display all notification fro posted jobs
+
+def view_all_jobs(request):
+    profile = Profile.objects.get(user_id=request.user.id)
+    jobs = Job.objects.filter(profile=profile.id)
+
+    return render(request, "employer/alljobs.html", {
+        'jobs': jobs,
+    })
+
+
+def view_all_application(request):
+    unread_response = []
+    profile = Profile.objects.get(user_id=request.user.id)
+    jobs = Job.objects.filter(profile=profile.id)
+
+    for job in jobs:
+        applications = Application.objects.filter(job_id=job.id)
+        for application in applications:
+            name = Profile.objects.get(user_id=application.applicant_id).name
+            email = request.user.email
+            unread_response.append(
+                f"{name}({email}) appliad to {job.title} on {application.timestamp}")
+            code = application.id
+    return render(request, "employer/allapplication.html", {
+        'unread_response': unread_response,
+        'code': code,
+    })
+
+
+def view_application(request, id):
+    application = Application.objects.get(id=id)
+    job = Job.objects.get(id=application.job_id)
+    profile = Profile.objects.get(user_id=application.applicant_id)
+    application.status = 1
+    application.save()
+    return render(request, "employer/application.html", {
+        'profile': profile,
+        'job': job,
+        'application': application,
+    })

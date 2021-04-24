@@ -1,0 +1,32 @@
+{% extends "employer/base.html" %}
+
+{% block title %}
+view-all-applications
+{% endblock %}
+
+{% block nav %}
+{% include "employer/nav.html" %}
+{% endblock %}
+
+{% block main %}
+<h3 class="text-center display-4"> ALL Applications</h3>
+
+<table class="table table-dark table-striped table-bordered border-white">
+    <thead align="center">
+        <tr>
+            <th width="8%" scope="col-sm">#</th>
+            <th width="78%" scope="col">Application</th>
+            <th width="12%" scope="col">View</th>
+        </tr>
+    </thead>
+    <tbody align="center">
+        {% for ur in unread_response %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td align="left">{{ ur }}</td>
+            <td><a href="/employer/application/{{code}}" class="btn btn-sm btn-primary">View Application</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
