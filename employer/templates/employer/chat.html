@@ -2,6 +2,7 @@
 
 {% block title %}
 chat with candidate
+
 {% endblock %}
 
 {% block nav %}
@@ -13,11 +14,29 @@ chat with candidate
     <div class="alert alert-secondary" role="alert">
         <h5 class="text-center"><b>{{profile.name}}</b> Appllied to <b>{{job.title}}</b></h5>
     </div>
-    <div class="overflow-auto">
-        {% for msg in messages%}
+    <div class="card overflow-auto">
+        <h5 class="card-header text-dark">Chat</h5>
+        <div style="overflow-y: scroll !important; height:200px !important;">
+            {% for msg in messages %}
+            {% if msg.from_id != request.user.id %}
+            <div class="media">
+                <div class="media-body">
+                    <p>Hi</p>
+                </div>
+            </div>
+            {% else %}
+            <div class="media-chat-reverse">
+                <div class="media-body">
 
-        <p class="bg-white text-dark">{{msg.message}}</p>
-        {% endfor %}
+                    <p>{{msg.message}}</p>
+                    <p>00:06</p>
+
+                </div>
+            </div>
+            {% endif %}
+            <hr />
+            {% endfor %}
+        </div>
     </div>
     <form method="POST">
         {% csrf_token %}
