@@ -1,5 +1,7 @@
+from employer.models import Job
+from jobs.models import Application
 from django.shortcuts import render
-from .models import Profile
+from .models import ChatMessage, Profile
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -33,3 +35,27 @@ def complete_register(request):
         return HttpResponseRedirect('/')
 
     return render(request, "dashboard/complete-register.html")
+
+
+@login_required(login_url="/auth/login/")
+def chat_with_employer(request, application_id):
+    application = Application.objects.get(id=application_id)
+
+    if request.method == 'POST':
+        message = request.POST['message']
+        from_id = request.user.id
+        to_id = application.id
+        ChatMessage(from_id=from_id, to_id=to_id, message=message,
+                    application_id=application_id).save()
+
+        return HttpResponseRedirect(f"/chat/{application_id}/")
+    else:
+        messages = ChatMessage.objects.filter(application_id=application_id)
+        job = Job.objects.get(id=application.job_id)
+        profile = Profile.objects.get(id=job.profile)
+        return render(request, "dashboard/chat.html", {
+            'messages': messages,
+            'application': application,
+            'job': job,
+            'profile': profile,
+        })

@@ -10,10 +10,10 @@ chat with candidate
 {% endblock %}
 
 {% block main %}
-<div class="mt-2 text-white">
+<div class="mt-3 text-white">
     <div class="alert alert-secondary" role="alert">
-        <h5><b>{{profile.name}}</b> Appllied to <b>{{job.title}}</b></h5>
-        <p class="text-secondary">*page relode automatically after every 5 seconds</p>
+        <h5>You Appllied to <b>{{job.title}}({{profile.name}})</b></h5>
+        <p class="text-secondary">page relode automatically after every 5 seconds</p>
     </div>
     <div class="card overflow-auto" id="msg">
         <h5 class="card-header text-dark">Chat</h5>
