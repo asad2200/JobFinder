@@ -1,0 +1,26 @@
+{% extends "employer/base.html" %}
+
+{% block title %}
+post-new-job
+{% endblock %}
+
+{% block nav %}
+{% include "employer/nav.html" %}
+{% endblock %}
+
+{% block main %}
+<div class="text-white mt-2">
+    <h3>Schedule interview with {{profile.name}} for {{job.title}}</h3>
+    <hr />
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-2">
+            <label for="time" class="form-label">Choose Time</label>
+            <input type="datetime-local" class="form-control" id="time" name="time">
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

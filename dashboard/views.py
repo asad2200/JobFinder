@@ -5,7 +5,18 @@ from .models import ChatMessage, Profile
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 
+import requests
+import json
+
 # Create your views here.
+
+
+def base64_encode(message):
+    import base64
+    message_bytes = message.encode('ascii')
+    base64_bytes = base64.b64encode(message_bytes)
+    base64_message = base64_bytes.decode('ascii')
+    return base64_message
 
 
 @login_required(login_url="/auth/login/")
@@ -59,3 +70,13 @@ def chat_with_employer(request, application_id):
             'job': job,
             'profile': profile,
         })
+
+
+def zoom_callback(request):
+    code = request.GET["code"]
+    data = requests.post(
+        f"https://zoom.us/oauth/token?grant_type=authorization_code&code={code}&redirect_uri=http://127.0.0.1:8000/zoom/callback/", headers={
+            "Authorization": "Basic" + base64_encode("26iWoBzaQwqVWKgEFifiGw:L5en759Rdz64uEpxn3P8wAOeXCN4BhQk")
+        })
+    request.session["zoom_access_token"] = data.json()["access_token"]
+    return HttpResponse("You successfully login in zoom. now you can schedule metting go to <a href='/'>Dashboard</a>")

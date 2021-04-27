@@ -104,3 +104,18 @@ def chat_with_candidate(request, application_id):
             'job': job,
             'profile': profile,
         })
+
+
+def schedule_interview(request, application_id):
+    if request.method == 'POST':
+        time = request.POST["time"]
+
+    else:
+        app = Application.objects.get(id=application_id)
+        profile = Profile.objects.get(user_id=app.applicant_id)
+        job = Job.objects.get(id=app.job_id)
+        print(request.session["zoom_access_token"])
+        return render(request, "employer/schedule-interview.html", {
+            'profile': profile,
+            'job': job,
+        })

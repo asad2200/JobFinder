@@ -11,4 +11,6 @@ urlpatterns = [
          name="view_application"),
     path("chat/<str:application_id>/", views.chat_with_candidate,
          name="chat_with_candidate"),
+    path("schedule-interview/<str:application_id>/", views.schedule_interview,
+         name="schedule_interview"),
 ]
