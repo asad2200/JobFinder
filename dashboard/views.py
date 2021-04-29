@@ -21,17 +21,14 @@ def base64_encode(message):
 
 @login_required(login_url="/auth/login/")
 def index(request):
-    # if request.session.get("role") is None:
     try:
         profile = Profile.objects.get(user_id=request.user.id)
         if profile.role == 0:
             return HttpResponseRedirect("/employer/")
+        if profile.role == 1:
+            return HttpResponseRedirect("/dashboard/")
     except Profile.DoesNotExist:
         return HttpResponseRedirect("/complete-register/")
-    # elif int(request.session.get("role")) == 0:
-    #     print("outside")
-    #     return HttpResponseRedirect("/employer/")
-    return HttpResponse("Welcome To dashboard")
 
 
 @login_required(login_url="/auth/login/")
@@ -42,7 +39,6 @@ def complete_register(request):
 
         Profile(user_id=request.user.id, role=role, name=name).save()
 
-        # request.session["role"] = role
         return HttpResponseRedirect('/')
 
     return render(request, "dashboard/complete-register.html")
@@ -80,3 +76,20 @@ def zoom_callback(request):
         })
     request.session["zoom_access_token"] = data.json()["access_token"]
     return HttpResponse("You successfully login in zoom. now you can schedule metting go to <a href='/'>Dashboard</a>")
+
+
+def dashboard(request):
+    applications = Application.objects.filter(applicant_id=request.user.id)
+    applied = []
+    status = {
+        0: 'waiting',
+        1: 'viewed',
+        2: 'accepted',
+        3: 'rejected',
+    }
+    for application in applications:
+        job = Job.objects.get(id=application.job_id)
+        applied.append([application, job, status[application.status]])
+    return render(request, "dashboard/index.html", {
+        'applications': applied,
+    })

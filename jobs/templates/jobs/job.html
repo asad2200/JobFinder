@@ -1,15 +1,15 @@
-{% extends "employer/base.html" %}
+{% extends "dashboard/base.html" %}
 
 {% block title %}
 Job
 {% endblock %}
 
 {% block nav %}
-{% include "employer/nav.html" %}
+{% include "dashboard/nav.html" %}
 {% endblock %}
 
 {% block main %}
-<div class="card m-5 text-white">
+<div class="card m-5 text-white bg-dark" id="job_card">
     <h5 class="card-header text-uppercase">Job From {{ company }}</h5>
     <div class="card-body">
         <h5 class="card-title">{{ job.title }}</h5>

@@ -1,11 +1,11 @@
-{% extends "employer/base.html" %}
+{% extends "dashboard/base.html" %}
 
 {% block title %}
 apply job
 {% endblock %}
 
 {% block nav %}
-{% include "employer/nav.html" %}
+{% include "dashboard/nav.html" %}
 {% endblock %}
 
 {% block main %}
@@ -24,8 +24,8 @@ apply job
             <input type="email" class="form-control" id="email" value={{request.user.email}} disabled>
         </div>
         <div class="mb-2">
-            <label for="resume" class="form-label">Resume</label>
-            <input type="file" accept="application/pdf" class="form-control" id="resume" name="file" required>
+            <label for="resume" class="form-label">Resume **disbaled becasue website hosted on free services</label>
+            <input type="file" accept="application/pdf" class="form-control" id="resume" name="file" disabled>
         </div>
         <div class="mb-2">
             <label for="coverletter" class="form-label">Cover letter(optional)</label>

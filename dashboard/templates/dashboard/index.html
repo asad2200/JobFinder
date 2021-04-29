@@ -1,0 +1,36 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+all jobs
+{% endblock %}
+
+{% block nav %}
+{% include "dashboard/nav.html" %}
+{% endblock %}
+
+{% block main %}
+<h3 class="text-center display-4">ALL JOBS You Applied</h3>
+
+<table class="table table-dark table-striped table-bordered border-white">
+    <thead align="center">
+        <tr>
+            <th width="5%" scope="col-sm">#</th>
+            <th width="70%" scope="col">Application Description</th>
+            <th width="9%" scope="col">status</th>
+            <th width="8%" scope="col">View Job</th>
+            <th width="8%" scope="col">Chat With Employer</th>
+        </tr>
+    </thead>
+    <tbody align="center">
+        {% for application in applications %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td align="left">You applied to {{application.1.title}}</td>
+            <td>{{application.2}}</td>
+            <td><a href="/jobs/{{application.1.code}}/" class="btn btn-sm btn-primary">View Job</a></td>
+            <td><a href="/chat/{{application.0.id}}/" class="btn btn-sm btn-primary">Chat</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

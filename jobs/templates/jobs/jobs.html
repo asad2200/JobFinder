@@ -1,0 +1,27 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+Jobs
+{% endblock %}
+
+{% block nav %}
+{% include "dashboard/nav.html" %}
+{% endblock %}
+
+{% block main %}
+<div class="row mt-3">
+    {% for job in jobs %}
+    <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card text-white bg-dark m-2" style="max-width: 18rem;">
+            <div class="card-header text-capitalize">{{job.0.title}} from {{job.1}}</div>
+            <div class="card-body">
+                <h5 class="card-title">${{job.0.min_salary}} ~ ${{job.0.min_salary}} {{job.0.freq}}</h5>
+                <p class="card-text">{{job.0.description}}</p>
+                <p class="card-text">Location: {{job.0.location}}</p>
+                <a href="/jobs/{{job.0.code}}" class="btn btn-sm btn-primary">View Job</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

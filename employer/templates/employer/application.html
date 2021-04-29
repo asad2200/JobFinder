@@ -23,12 +23,12 @@ view application
             <input type="email" class="form-control" id="email" value={{request.user.email}} disabled>
         </div>
         <div class="row mb-2">
-            <div class="col-sm-2">
-                <label for="resume" class="form-label">Resume</label>
+            <div class="col-sm-5">
+                <label for="resume" class="form-label">Resume **disbaled becasue website hosted on free services</label>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-7">
                 <a href="/jobs/resume/{{application.resume}}/" target="_blank"
-                    class="col-sm-8 form-control btn btn-sm btn-outline-primary">view
+                    class="col-sm-8 form-control btn btn-sm btn-primary disabled">view
                     resume</a>
             </div>
         </div>
@@ -39,14 +39,14 @@ view application
         </div>
         <div class="row">
             <div class="col-sm d-grid mt-1">
-                <button type="submit" class="btn btn-danger m">Reject candidate</button>
+                <a href="/employer/chat/{{application.id}}" class="btn btn-success">Chat With Candidate</a>
             </div>
             <div class="col-sm d-grid mt-1">
                 <a href="/employer/schedule-interview/{{application.id}}/" class="btn btn-primary">Invite to
                     interview</a>
             </div>
             <div class="col-sm d-grid mt-1">
-                <button type="submit" class="btn btn-success">Hire candidate</button>
+                <button type="submit" class="btn btn-danger m">Reject candidate</button>
             </div>
         </div>
     </form>

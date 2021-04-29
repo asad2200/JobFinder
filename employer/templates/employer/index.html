@@ -1,13 +1,34 @@
 {% extends "employer/base.html" %}
 
 {% block title %}
-    Dashboard
+Dashboard
 {% endblock %}
 
 {% block nav %}
-    {% include "employer/nav.html" %}
+{% include "employer/nav.html" %}
 {% endblock %}
 
 {% block main %}
-    employer dashboard under construction....
+<h3 class="text-center display-4">Applications to response</h3>
+
+<table class="table table-dark table-striped table-bordered border-white">
+    <thead align="center">
+        <tr>
+            <th width="5%" scope="col-sm">#</th>
+            <th width="75%" scope="col">Application</th>
+            <th width="10%" scope="col">status</th>
+            <th width="10%" scope="col">View</th>
+        </tr>
+    </thead>
+    <tbody align="center">
+        {% for ur in unread_response %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td align="left">{{ ur.0 }}</td>
+            <td>{{ ur.2 }}</td>
+            <td><a href="/employer/application/{{ur.1}}/" class="btn btn-sm btn-primary">View Application</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

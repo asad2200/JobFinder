@@ -1,0 +1,15 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block nav %}
+{% include "dashboard/nav.html" %}
+{% endblock %}
+
+{% block main %}
+<div class="alert alert-danger mt-3" role="alert">
+    {{ message }}
+</div>
+{% endblock %}

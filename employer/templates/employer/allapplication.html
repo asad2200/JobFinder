@@ -9,22 +9,24 @@ view-all-applications
 {% endblock %}
 
 {% block main %}
-<h3 class="text-center display-4"> ALL Applications</h3>
+<h3 class="text-center display-4"> All Applications </h3>
 
 <table class="table table-dark table-striped table-bordered border-white">
     <thead align="center">
         <tr>
             <th width="8%" scope="col-sm">#</th>
             <th width="78%" scope="col">Application</th>
+            <th width="78%" scope="col">status</th>
             <th width="12%" scope="col">View</th>
         </tr>
     </thead>
     <tbody align="center">
-        {% for ur in unread_response %}
+        {% for ur in response %}
         <tr>
             <th scope="row">{{ forloop.counter }}</th>
-            <td align="left">{{ ur }}</td>
-            <td><a href="/employer/application/{{code}}/" class="btn btn-sm btn-primary">View Application</a></td>
+            <td align="left">{{ ur.0 }}</td>
+            <td>{{ ur.2 }}</td>
+            <td><a href="/employer/application/{{ur.1}}/" class="btn btn-sm btn-primary">View Application</a></td>
         </tr>
         {% endfor %}
     </tbody>
