@@ -9,10 +9,9 @@ apply job
 {% endblock %}
 
 {% block main %}
-<div class="mt-2 text-white">
-    <div class="alert alert-secondary" role="alert">
-        <h5>Apply to <b>{{job.title}}</b> from <b>{{company}}</b></h5>
-    </div>
+<div class="mt-2">
+    <h3>Apply to <b>{{job.title}}</b> from <b>{{company}}</b></h3>
+    <hr />
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-2">

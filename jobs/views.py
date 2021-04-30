@@ -1,13 +1,17 @@
-import math
+from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponse
 from jobs.models import Application
 from django.shortcuts import render
 from employer.models import Job, Qualification
 from dashboard.models import Profile
 from helpers import upload_s3, get_s3
+from decorators import checkrole
+import math
 # Create your views here.
 
 
+@login_required(login_url="/auth/login/")
+@checkrole(1)
 def view_jobs(request):
     alljobs = []
     jobs = Job.objects.all().order_by("-id")
@@ -20,6 +24,7 @@ def view_jobs(request):
     })
 
 
+@login_required(login_url="/auth/login/")
 def view_job(request, code):
     job = Job.objects.get(code=code)
     qualifications = Qualification.objects.filter(job_id=job.id)
@@ -33,6 +38,8 @@ def view_job(request, code):
     })
 
 
+@login_required(login_url="/auth/login/")
+@checkrole(1)
 def apply_job(request, code):
     try:
         application = Application.objects.get(
@@ -74,6 +81,7 @@ def apply_job(request, code):
         })
 
 
+@login_required(login_url="/auth/login/")
 def view_resume(request, code):
     # TODO: filedata = get_s3(code)
     filedata = ''
@@ -82,6 +90,8 @@ def view_resume(request, code):
     return response
 
 
+@login_required(login_url='/auth/login')
+@checkrole(1)
 def search_job(request):
     if request.GET.get("q"):
         alljobs = []

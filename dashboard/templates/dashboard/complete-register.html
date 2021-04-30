@@ -5,10 +5,9 @@ complete register
 {%endblock %}
 
 {% block main %}
-<div class="mt-3 text-white">
-  <div class="alert alert-dark" role="alert">
-    <h5>Complete Register</h5>
-  </div>
+<div class="mt-3">
+  <h5>Complete Register</h5>
+  <hr />
   <form method="POST">
     {% csrf_token %}
     <div>

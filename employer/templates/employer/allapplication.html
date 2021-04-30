@@ -9,9 +9,23 @@ view-all-applications
 {% endblock %}
 
 {% block main %}
-<h3 class="text-center display-4"> All Applications </h3>
+<div class="row mt-3 mb-2">
+    <form>
+        <div class="input-group">
+            <select class="form-select" name="job">
+                <option selected>Select Job</option>
+                {% for job in jobs %}
+                <option value="{{job.title}}">{{job.title}}</option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-primary" type="submit" id="button-addon2">Submit</button>
+        </div>
+    </form>
+</div>
 
-<table class="table table-dark table-striped table-bordered border-white">
+<h3> All Applications</h3>
+<hr />
+<table class="table table-striped table-bordered border-success">
     <thead align="center">
         <tr>
             <th width="8%" scope="col-sm">#</th>

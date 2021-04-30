@@ -9,7 +9,7 @@ view application
 {% endblock %}
 
 {% block main %}
-<div class="mt-2 text-white">
+<div class="mt-2">
     <h3><b>{{profile.name}}</b> Appllied to <b>{{job.title}}</b></h3>
     <hr />
     <form method="POST" enctype="multipart/form-data">
@@ -39,14 +39,17 @@ view application
         </div>
         <div class="row">
             <div class="col-sm d-grid mt-1">
-                <a href="/employer/chat/{{application.id}}" class="btn btn-success">Chat With Candidate</a>
+                <a href="/employer/chat/{{application.id}}/" class="btn btn-info">Chat With Candidate</a>
             </div>
             <div class="col-sm d-grid mt-1">
                 <a href="/employer/schedule-interview/{{application.id}}/" class="btn btn-primary">Invite to
                     interview</a>
             </div>
             <div class="col-sm d-grid mt-1">
-                <button type="submit" class="btn btn-danger m">Reject candidate</button>
+                <a href="/employer/hire/{{application.id}}/" class="btn btn-success m">Hire candidate</a>
+            </div>
+            <div class="col-sm d-grid mt-1">
+                <a href="/employer/reject/{{application.id}}/" class="btn btn-danger m">Reject candidate</a>
             </div>
         </div>
     </form>

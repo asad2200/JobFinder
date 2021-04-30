@@ -5,6 +5,7 @@ from .models import ChatMessage, Profile
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 
+from decorators import checkrole
 import requests
 import json
 
@@ -45,6 +46,7 @@ def complete_register(request):
 
 
 @login_required(login_url="/auth/login/")
+@checkrole(1)
 def chat_with_employer(request, application_id):
     application = Application.objects.get(id=application_id)
 
@@ -78,18 +80,24 @@ def zoom_callback(request):
     return HttpResponse("You successfully login in zoom. now you can schedule metting go to <a href='/'>Dashboard</a>")
 
 
+@login_required(login_url="/auth/login/")
+@checkrole(1)
 def dashboard(request):
-    applications = Application.objects.filter(applicant_id=request.user.id)
+    status = request.GET.get("status")
     applied = []
-    status = {
-        0: 'waiting',
-        1: 'viewed',
-        2: 'accepted',
-        3: 'rejected',
-    }
-    for application in applications:
-        job = Job.objects.get(id=application.job_id)
-        applied.append([application, job, status[application.status]])
+
+    if status != None and status != -1:
+        applications = Application.objects.filter(
+            applicant_id=request.user.id, status=status)
+        status = {
+            0: 'waiting',
+            1: 'viewed',
+            2: 'accepted',
+            3: 'rejected',
+        }
+        for application in applications:
+            job = Job.objects.get(id=application.job_id)
+            applied.append([application, job, status[application.status]])
     return render(request, "dashboard/index.html", {
         'applications': applied,
     })

@@ -5,11 +5,11 @@ Job
 {% endblock %}
 
 {% block nav %}
-{% include "dashboard/nav.html" %}
+<!-- {% include "dashboard/nav.html" %} -->
 {% endblock %}
 
 {% block main %}
-<div class="card m-5 text-white bg-dark" id="job_card">
+<div class="card m-5" id="job_card">
     <h5 class="card-header text-uppercase">Job From {{ company }}</h5>
     <div class="card-body">
         <h5 class="card-title">{{ job.title }}</h5>

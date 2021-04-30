@@ -12,7 +12,7 @@ Jobs
 <div class="row mt-3">
     {% for job in jobs %}
     <div class="col-sm-6 col-md-4 col-lg-3">
-        <div class="card text-white bg-dark m-2" style="max-width: 18rem;">
+        <div class="card m-2" style="max-width: 18rem;">
             <div class="card-header text-capitalize">{{job.0.title}} from {{job.1}}</div>
             <div class="card-body">
                 <h5 class="card-title">${{job.0.min_salary}} ~ ${{job.0.min_salary}} {{job.0.freq}}</h5>

@@ -12,8 +12,33 @@
         crossorigin="anonymous"></script>
     <title>{% block title %}{% endblock %}</title>
     <style>
-        body {
-            background-color: dimgray;
+        .media-chat {
+            display: table;
+            margin-bottom: 3px;
+        }
+
+        .media-chat p {
+            background-color: #71abe6;
+            color: #000;
+            padding: 6px;
+            margin: 0;
+            margin-left: 3px;
+            margin-bottom: 1px;
+            border-radius: 5px;
+            float: left;
+            clear: left;
+        }
+
+        .media-chat-reverse {
+            margin-bottom: 2px;
+            margin-right: 25px;
+        }
+
+        .media-chat-reverse p {
+            color: #000;
+            padding: 0px;
+            text-align: right;
+            margin: 0;
         }
     </style>
 </head>
