@@ -4,10 +4,13 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-
+from credentials import ZOOM_CLIENT_ID, ZOOM_CLIENT_SECRET
 from decorators import checkrole
 from dashboard.models import Profile, ChatMessage
 from .models import Job, Qualification
+from helpers import base64_encode
+import requests
+import json
 
 # Create your views here.
 
@@ -187,19 +190,62 @@ def chat_with_candidate(request, application_id):
 
 
 def schedule_interview(request, application_id):
+    app = Application.objects.get(id=application_id)
+    candidate = Profile.objects.get(user_id=app.applicant_id)
+    job = Job.objects.get(id=app.job_id)
+    profile = Profile.objects.get(user_id=request.user.id)
+    if profile.zoom_auth_token == '':
+        request.session['applicaion_id'] = application_id
+        return HttpResponseRedirect(f'https://zoom.us/oauth/authorize?response_type=code&client_id={ZOOM_CLIENT_ID}&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fzoom%2Fcallback/')
+
     if request.method == "POST":
         time = request.POST["time"]
-        pass
+        data = ''
+        try:
+            data = requests.post("https://api.zoom.us/v2/users/me/meetings", headers={
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer' + profile.zoom_auth_token
+            }, data=json.dumps({
+                "topic": f"Interview with {profile.name}",
+                "start_time": time,
+                "duration": 45,
+                "type": 2
+            }))
+            if data.json()['start_url']:
+                pass
+        except:
+            print('a', data.json())
+            if data.json()['message'] == 'Invalid access token.':
+                request.session['applicaion_id'] = application_id
+                return HttpResponseRedirect(f'https://zoom.us/oauth/authorize?response_type=code&client_id={ZOOM_CLIENT_ID}&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fzoom%2Fcallback/')
+            if data.json()["message"] == 'Access token is expired.':
+                data = requests.post(
+                    f"https://zoom.us/oauth/token?grant_type=refresh_token&refresh_token={profile.zoom_refresh_token}", headers={
+                        "Authorization": "Basic" + base64_encode(f"{ZOOM_CLIENT_ID}:{ZOOM_CLIENT_SECRET}")
+                    })
+                profile.zoom_auth_token = data.json()["access_token"]
+                profile.zoom_refresh_token = data.json()["refresh_token"]
+                data = requests.post("https://api.zoom.us/v2/users/me/meetings", headers={
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer' + profile.zoom_auth_token
+                }, data=json.dumps({
+                    "topic": f"Interview with {profile.name}",
+                    "start_time": time,
+                    "duration": 45,
+                    "type": 2
+                }))
+        ChatMessage(from_id=request.user.id, to_id=candidate.id, application_id=application_id,
+                    message=f"Your Interview is schedule on {data.json()['start_time']}. <a href='{data.json()['join_url']}'>Join ZOOM MEETING</a>. Good luck!!").save()
+        ChatMessage(from_id=request.user.id, to_id=candidate.id, application_id=application_id,
+                    message=f"(only viewable for you) Start the metting on {data.json()['start_time']}. <a href='{data.json()['start_url']}'>Start ZOOM MEETING</a>. both links valid for 90 days", public=False).save()
+        return HttpResponseRedirect(f"/employer/chat/{application_id}")
     else:
-        app = Application.objects.get(id=application_id)
-        profile = Profile.objects.get(user_id=app.applicant_id)
-        job = Job.objects.get(id=app.job_id)
-        print(request.session["zoom_access_token"])
+
         return render(
             request,
             "employer/schedule-interview.html",
             {
-                "profile": profile,
+                "candidate": candidate,
                 "job": job,
             },
         )

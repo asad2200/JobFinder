@@ -20,12 +20,12 @@ chat with candidate
             {% for msg in messages %}
             {% if msg.from_id != request.user.id %}
             <div class="media-chat">
-                <p>{{msg.message}}</p>
+                <p>{{ msg.message|safe }}</p>
                 <p class="text-secondary">{{msg.timestamp}}</p>
             </div>
             {% else %}
             <div class="media-chat-reverse">
-                <p>{{msg.message}}</p>
+                <p>{{ msg.message|safe }}</p>
                 <p class="text-secondary">{{msg.timestamp}}</p>
             </div>
             {% endif %}

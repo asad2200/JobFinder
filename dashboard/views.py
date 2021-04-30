@@ -1,23 +1,15 @@
+from helpers import base64_encode
 from employer.models import Job
 from jobs.models import Application
 from django.shortcuts import render
 from .models import ChatMessage, Profile
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
-
+from credentials import ZOOM_CLIENT_ID, ZOOM_CLIENT_SECRET
 from decorators import checkrole
 import requests
-import json
 
 # Create your views here.
-
-
-def base64_encode(message):
-    import base64
-    message_bytes = message.encode('ascii')
-    base64_bytes = base64.b64encode(message_bytes)
-    base64_message = base64_bytes.decode('ascii')
-    return base64_message
 
 
 @login_required(login_url="/auth/login/")
@@ -71,13 +63,17 @@ def chat_with_employer(request, application_id):
 
 
 def zoom_callback(request):
-    code = request.GET["code"]
+    code = request.GET.get("code")
     data = requests.post(
         f"https://zoom.us/oauth/token?grant_type=authorization_code&code={code}&redirect_uri=http://127.0.0.1:8000/zoom/callback/", headers={
-            "Authorization": "Basic" + base64_encode("26iWoBzaQwqVWKgEFifiGw:L5en759Rdz64uEpxn3P8wAOeXCN4BhQk")
+            "Authorization": "Basic" + base64_encode(f"{ZOOM_CLIENT_ID}:{ZOOM_CLIENT_SECRET}")
         })
-    request.session["zoom_access_token"] = data.json()["access_token"]
-    return HttpResponse("You successfully login in zoom. now you can schedule metting go to <a href='/'>Dashboard</a>")
+    profile = Profile.objects.get(user_id=request.user.id)
+    profile.zoom_auth_token = data.json()["access_token"]
+    profile.zoom_refresh_token = data.json()["refresh_token"]
+    profile.save()
+    return HttpResponseRedirect(f"/employer/schedule-interview/{request.session['applicaion_id']}/")
+    # return HttpResponse("You successfully login in zoom. now you can schedule metting go to <a href='/'>Dashboard</a>")
 
 
 @login_required(login_url="/auth/login/")

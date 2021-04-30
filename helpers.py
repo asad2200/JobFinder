@@ -1,6 +1,5 @@
 import random
 import string
-import uuid
 import boto3
 from credentials import *
 
@@ -22,3 +21,11 @@ def upload_s3(request):
 def get_s3(name):
     obj = s3.Object("django-jobfinder-asad", name)
     return obj.get()
+
+
+def base64_encode(message):
+    import base64
+    message_bytes = message.encode('ascii')
+    base64_bytes = base64.b64encode(message_bytes)
+    base64_message = base64_bytes.decode('ascii')
+    return base64_message

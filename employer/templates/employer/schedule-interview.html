@@ -10,7 +10,8 @@ post-new-job
 
 {% block main %}
 <div class="mt-2">
-    <h3>Schedule interview with {{profile.name}} for {{job.title}}</h3>
+    <h3>Schedule interview with {{candidate.name}} for {{job.title}}</h3>
+    <p class='text-secondary'>**You can total create only 100 mettings per day</p>
     <hr />
     <form method="POST">
         {% csrf_token %}
